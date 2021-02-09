@@ -127,6 +127,27 @@ class SavedQueryRestApi(BaseSupersetModelRestApi):
     def pre_update(self, item: SavedQuery) -> None:
         self.pre_add(item)
 
+    @expose("/", methods=["POST"])
+    @protect()
+    @safe
+    @statsd_metrics
+    def post(self):
+        return self.post_headless()
+
+    @expose("/<pk>", methods=["PUT"])
+    @protect()
+    @safe
+    @statsd_metrics
+    def put(self, pk):
+        return self.put_headless(pk)
+
+    @expose("/<pk>", methods=["DELETE"])
+    @protect()
+    @safe
+    @statsd_metrics
+    def delete(self, pk):
+        return self.delete_headless(pk)
+
     @expose("/", methods=["DELETE"])
     @protect()
     @safe
